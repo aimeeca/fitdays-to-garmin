@@ -1,0 +1,14 @@
+# personal data — never commit real exports
+*.csv
+!scalehistory.example.csv
+*.xls
+*.xlsx
+
+# third-party binaries
+*.apk
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
