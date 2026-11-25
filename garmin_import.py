@@ -354,6 +354,9 @@ def main():
 
     rows, skipped = asyncio.run(load_fitdays())
 
+    # Voorlopig alleen metingen vanaf 1 november 2026 verwerken
+    rows = [row for row in rows if row["date"] >= "2026-11-01"]
+
     if not rows:
         sys.exit("No valid Fitdays measurements were found.")
 
