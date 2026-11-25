@@ -22,6 +22,6 @@ jobs:
           GARMIN_EMAIL: ${{secrets.GARMIN_EMAIL}}
           GARMIN_PASSWORD: ${{secrets.GARMIN_PASSWORD}}
           FITDAYS_EMAIL: ${{secrets.FITDAYS_EMAIL}}
-          FITDAYS_PASSWORD: ${{secrets.FIDAYS_PASSWORD}}
+          FITDAYS_PASSWORD: ${{secrets.FITDAYS_PASSWORD}}
         run: python garmin_import.py
           
