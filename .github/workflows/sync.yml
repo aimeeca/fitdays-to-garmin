@@ -31,6 +31,7 @@ jobs:
           FITDAYS_EMAIL: ${{ secrets.FITDAYS_EMAIL }}
           FITDAYS_PASSWORD: ${{ secrets.FITDAYS_PASSWORD }}
           HEIGHT_M: ${{ secrets.HEIGHT_M }}
+          FITDAYS_PROFILE: ${{secrets.FITDAYS_PROFILE}}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
           python garmin_import.py --dry-run
