@@ -1,1 +1,2 @@
 garminconnect>=0.3.11
+fitdays==1.0.0
