@@ -356,12 +356,12 @@ def main():
 
     print("\nLaatste 10 Fitdays-metingen:")
     for row in rows[-10:]:
-    print(
-        row["date"],
-        row["weight"],
-        row["percent_fat"],
-        row["muscle_mass"]
-    )
+        print(
+            row["date"],
+            row["weight"],
+            row["percent_fat"],
+            row["muscle_mass"]
+        )
     print()
 
     if not rows:
