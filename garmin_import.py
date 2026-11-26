@@ -23,6 +23,7 @@ from datetime import datetime
 
 HEIGHT_M = float(os.environ.get("HEIGHT_M", "1.70"))
 FITDAYS_PROFILE = os.environ.get("FITDAYS_PROFILE", "").strip()
+FITDAYS_COUNTRY = os.environ.get("FITDAYS_COUNTRY", "BE").strip().upper()
 
 TOKENSTORE = os.path.expanduser("~/.garminconnect")
 WEIGH_HOUR = "07:00:00"
@@ -98,7 +99,7 @@ def value_or_none(measurement, attribute):
 
 async def load_fitdays():
     """Download all measurements from the Fitdays cloud."""
-    from fitdays import FitdaysClient
+    from fitdays import FitdaysPlusClient
 
     email = os.environ.get("FITDAYS_EMAIL")
     password = os.environ.get("FITDAYS_PASSWORD")
@@ -108,9 +109,13 @@ async def load_fitdays():
             "FITDAYS_EMAIL and FITDAYS_PASSWORD must be configured."
         )
 
-    print("Logging in to Fitdays...")
+    print(f"Logging in to Fitdays+ ({FITDAYS_COUNTRY})...")
 
-    async with await FitdaysClient.login(email, password) as client:
+    async with await FitdaysPlusClient.login(
+        email,
+        password,
+        country=FITDAYS_COUNTRY,
+    ) as client:
         result = await client.get_sync()
 
         print(f"Fitdays returned {len(result.measurements)} measurements.")
