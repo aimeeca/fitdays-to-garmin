@@ -23,7 +23,10 @@ from datetime import datetime
 
 HEIGHT_M = float(os.environ.get("HEIGHT_M", "1.70"))
 FITDAYS_PROFILE = os.environ.get("FITDAYS_PROFILE", "").strip()
-FITDAYS_COUNTRY = os.environ.get("FITDAYS_COUNTRY", "BE").strip().upper()
+
+# Never send older Fitdays measurements to Garmin
+SYNC_FROM = "2026-11-26"
+
 
 TOKENSTORE = os.path.expanduser("~/.garminconnect")
 WEIGH_HOUR = "07:00:00"
@@ -99,7 +102,7 @@ def value_or_none(measurement, attribute):
 
 async def load_fitdays():
     """Download all measurements from the Fitdays cloud."""
-    from fitdays import FitdaysPlusClient
+    from fitdays import FitdaysClient
 
     email = os.environ.get("FITDAYS_EMAIL")
     password = os.environ.get("FITDAYS_PASSWORD")
@@ -109,14 +112,10 @@ async def load_fitdays():
             "FITDAYS_EMAIL and FITDAYS_PASSWORD must be configured."
         )
 
-    print(f"Logging in to Fitdays+ ({FITDAYS_COUNTRY})...")
+    print("Logging in to Fitdays...")
 
-    async with await FitdaysPlusClient.login(
-        email,
-        password,
-        country=FITDAYS_COUNTRY,
-    ) as client:
-        result = await client.get_sync()
+    async with await FitdaysClient.login(email, password) as client:
+    result = await client.get_sync()
 
         print(f"Fitdays returned {len(result.measurements)} measurements.")
 
@@ -359,15 +358,12 @@ def main():
 
     rows, skipped = asyncio.run(load_fitdays())
 
-    print("\nLaatste 10 Fitdays-metingen:")
-    for row in rows[-10:]:
-        print(
-            row["date"],
-            row["weight"],
-            row["percent_fat"],
-            row["muscle_mass"]
-        )
-    print()
+    # Only sync measurements from 26 November 2026 onwards
+    rows = [row for row in rows if row["date"] >= SYNC_FROM]
+
+    if not rows:
+        print(f"No new Fitdays measurements found since {SYNC_FROM}.")
+        return
 
     if not rows:
         sys.exit("No valid Fitdays measurements were found.")
