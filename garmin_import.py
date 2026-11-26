@@ -115,7 +115,7 @@ async def load_fitdays():
     print("Logging in to Fitdays...")
 
     async with await FitdaysClient.login(email, password) as client:
-    result = await client.get_sync()
+        result = await client.get_sync()
 
         print(f"Fitdays returned {len(result.measurements)} measurements.")
 
