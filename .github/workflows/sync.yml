@@ -1,5 +1,5 @@
 name: Fitdays to Garmin Sync
-on:
+'on':
   schedule:
     - cron: '*/5 * * * *'
 
