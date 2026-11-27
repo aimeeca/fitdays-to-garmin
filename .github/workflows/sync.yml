@@ -1,5 +1,6 @@
 name: Fitdays to Garmin Sync
-'on':
+
+on:
   schedule:
     - cron: '*/5 * * * *'
 
@@ -10,20 +11,25 @@ name: Fitdays to Garmin Sync
         required: false
         default: true
         type: boolean
+
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
       - name: Sync Fitdays to Garmin
         env:
           GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
@@ -31,12 +37,11 @@ jobs:
           FITDAYS_EMAIL: ${{ secrets.FITDAYS_EMAIL }}
           FITDAYS_PASSWORD: ${{ secrets.FITDAYS_PASSWORD }}
           HEIGHT_M: ${{ secrets.HEIGHT_M }}
-          FITDAYS_PROFILE: ${{secrets.FITDAYS_PROFILE}}
+          FITDAYS_PROFILE: ${{ secrets.FITDAYS_PROFILE }}
           FITDAYS_COUNTRY: ${{ secrets.FITDAYS_COUNTRY }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
-          python garmin_import.py --dry-run
+            python garmin_import.py --dry-run
           else
-          python garmin_import.py
+            python garmin_import.py
           fi
-          
