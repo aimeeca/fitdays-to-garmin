@@ -20,28 +20,8 @@ What gets transferred per weigh-in:
 | `visceral_fat`   | visceral fat rating    |
 | `bmr_kcal`       | basal metabolic rate   |
 
-## 1. Export your data from Fitdays
+## 1. 
 
-In the Fitdays app open your measurement **history** and use the export/share
-icon. Fitdays writes a spreadsheet to your phone's `Documents` folder (named
-`FitdaysData_<timestamp>.csv`, though it is actually an Excel file). Open it in
-Excel / Numbers / LibreOffice and save it as a plain CSV with **exactly this
-header** (column order does not matter, extra columns are ignored):
-
-```
-date,weight_kg,body_fat_pct,muscle_mass_kg,visceral_fat,body_water_pct,bmr_kcal
-```
-
-- `date` in `YYYY-MM-DD`; only `date` and `weight_kg` are required.
-- Any other column may be left empty for a row.
-- Several rows for the same date are fine — the most complete one wins.
-
-See [`scalehistory.example.csv`](scalehistory.example.csv).
-
-> Why not Health Connect? Fitdays can sync to Health Connect, but only weight,
-> body fat, water, bone mass, BMR and lean mass — no visceral fat, no muscle
-> mass — and Garmin Connect only writes to Health Connect, it does not import
-> weight from it.
 
 ## 2. Install
 
